@@ -34,7 +34,11 @@ resource "aws_batch_job_definition" "generate_batch_jd_coastalQ" {
       readOnly = false
     }, {
       sourceVolume = "flpe"
-      containerPath = "/mnt/data/output"
+      containerPath = "/mnt/data/flpe"
+      readOnly = false
+    }, {
+      sourceVolume = "coastalq"
+      containerPath = "/mnt/data/coastalq"
       readOnly = false
     }]
     volumes = [{
@@ -47,7 +51,14 @@ resource "aws_batch_job_definition" "generate_batch_jd_coastalQ" {
       name = "flpe"
       efsVolumeConfiguration = {
         fileSystemId = var.efs_file_system_ids["flpe"]
-        rootDirectory = "/geobam"
+        rootDirectory = "/"
+      }
+    },
+    {
+      name = "coastalq"
+      efsVolumeConfiguration = {
+        fileSystemId = var.efs_file_system_ids["coastalq"]
+        rootDirectory = "/"
       }
     }]
   })
